@@ -17,5 +17,5 @@ Boxy - Legally different than snake, except the snake does not grow
 
 Tennis, but table - Can't call the game "Pong"
 
-Magic 8 ball - Guess what it is
+Magic 8 ball - Guess what it is. Before it guesses you...
 
