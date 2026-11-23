@@ -147,6 +147,3 @@ while Running:
             Running = False
 
 pygame.quit()
-
-
-#
