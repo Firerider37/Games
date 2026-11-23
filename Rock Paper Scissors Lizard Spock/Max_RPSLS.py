@@ -87,10 +87,10 @@ while Running:
     elif selected == "Paper":                        #Follows same outline as prevous block
         if bot == "Rock":
             print ("Paper covers rock")
-            pts += 0
+            pts += 1
         elif bot == "Scissors":
             print("Scissors cuts paper")
-            pts += 1
+            pts += 0
         elif bot == "Lizzard":
             print("Lizzard eats paper")
             pts += 0
