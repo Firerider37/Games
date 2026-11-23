@@ -19,3 +19,5 @@ Tennis, but table - Can't call the game "Pong"
 
 Magic 8 ball - Guess what it is. Before it guesses you...
 
+Rock Paper Scissors Lizard Spock - Rock Paper Scissors DLC (Google it)
+
