@@ -11,10 +11,7 @@ Use:
 Bugs:
     None known.
 To do/Changes:
-    [ ] Introduce a way to restart the game after losing.
     [ ] Introduce baby game_mode where box does not increase speed and you can play forever without losing.
-    [ ] Make Fancy rects - draw surface ontop of rects
-
 '''
 
 
@@ -32,15 +29,15 @@ screen_width = 800
 screen_height = 800
 
 screen = pygame.display.set_mode((screen_width, screen_height))
-game_icon = pygame.image.load(r"C:\Users\mepstein30\Documents\CS1+\Boxy\Box.png")
+game_icon = pygame.image.load("Box.png")
 pygame.display.set_icon(game_icon)
 pygame.display.set_caption("Boxy")
 
-with open(r"C:\Users\mepstein30\Documents\CS1+\Boxy\HardModeScore", 'r+') as doc:
+with open("HardModeScore", 'r+') as doc:
     hard_mode_score =int(doc.read())
     doc.seek(0)
     doc.truncate()
-with open(r"C:\Users\mepstein30\Documents\CS1+\Boxy\EasyModeScore", 'r+') as doc:
+with open("EasyModeScore", 'r+') as doc:
     easy_mode_score = int(doc.read())
     doc.seek(0)
     doc.truncate()
@@ -49,8 +46,8 @@ with open(r"C:\Users\mepstein30\Documents\CS1+\Boxy\EasyModeScore", 'r+') as doc
 #Player and Rect definition
 #-----------------------
 boxy = pygame.Rect((400,400), (50,50))
-box_icon = pygame.image.load(r"C:\Users\mepstein30\Documents\CS1+\Boxy\Box.png")
-biscut_icon = pygame.image.load(r"C:\Users\mepstein30\Documents\CS1+\Boxy\Biscut.png")
+box_icon = pygame.image.load("Box.png")
+biscut_icon = pygame.image.load("Biscut.png")
 
 biscut0 = pygame.Rect((random.randint(1, 15)*50, random.randint(1, 15)*50), (50,50))
 biscut1 = pygame.Rect((random.randint(1, 15)*50, random.randint(1, 15)*50), (50,50))
@@ -102,6 +99,22 @@ while Running:
             boxy_direction = 3
 
     if key[pygame.K_RETURN]:
+        boxy.x = 400
+        boxy.y = 400
+        boxy_direction = None
+        score = 0
+        frame_rate = 20
+        tick_count = 0
+        tick_count_step_by = 5
+        game_mode = None
+        screen_color = "grey71"
+        biscut_color = "indianred4"
+        box_color = "seagreen"
+ 
+
+
+    if key[pygame.K_ESCAPE]:
+        time.sleep(3)
         handle_stop = True
 
     #---------------------------------------------
@@ -137,8 +150,7 @@ while Running:
                 score += 1
     else:
           update_frame_rate = False
-    if boxy.left < 0 or boxy.top < 0 or boxy.right > screen_width or boxy.bottom > screen_height:
-                handle_stop = True
+
 
     #---------------------------------------------
     #Score text for dispay at the end of the game/save to logs
@@ -149,13 +161,35 @@ while Running:
         hard_mode_score = score
     elif game_mode == "pt" and score > easy_mode_score:
         easy_mode_score = score
-    open(r"C:\Users\mepstein30\Documents\CS1+\Boxy\HardModeScore", 'w+').write(str(hard_mode_score))
-    open(r"C:\Users\mepstein30\Documents\CS1+\Boxy\EasyModeScore", 'w+').write(str(easy_mode_score))
+    high_score_text = pygame.font.SysFont(None, 36).render(f"High score: {hard_mode_score if game_mode == 'grad' else easy_mode_score}", True, "black")
+    open("HardModeScore", 'w+').write(str(hard_mode_score))
+    open("EasyModeScore", 'w+').write(str(easy_mode_score))
 
     #------------------------------
     #Screen Drawing and updates
     #------------------------------
     screen.fill(screen_color)
+
+    #------------------------
+    #Looseer
+    #-----------------------
+    if boxy.left < 0 or boxy.top < 0 or boxy.right > screen_width or boxy.bottom > screen_height:
+        boxy.x = 400
+        boxy.y = 400
+        boxy_direction = None
+        frame_rate = 20
+        tick_count = 0
+        tick_count_step_by = 5
+        game_mode = None
+        screen_color = "grey71"
+        biscut_color = "indianred4"
+        box_color = "seagreen"
+        screen.fill(screen_color)
+        score_text = pygame.font.SysFont(None, 36).render(f"Score: {score}", True, "black")
+        screen.blit(score_text, (300, 400))
+        pygame.display.update()
+        time.sleep(3)
+        score = 0
 
     #pygame.draw.rect(screen, box_color, boxy)
     screen.blit(box_icon, boxy)
@@ -166,18 +200,13 @@ while Running:
         screen.blit(biscut_icon, biscut2)
         screen.blit(biscut_icon, biscut3)
         screen.blit(biscut_icon, biscut4)
-        '''
-        pygame.draw.rect(screen, biscut_color, biscut0)
-        pygame.draw.rect(screen, biscut_color, biscut1)
-        pygame.draw.rect(screen, biscut_color, biscut2)
-        pygame.draw.rect(screen, biscut_color, biscut3)
-        pygame.draw.rect(screen, biscut_color, biscut4)
-        '''
+
     else:
         screen.blit(intro_text, (200, 200))
 
     if handle_stop:
         screen.blit(score_text, (300, 400))
+        screen.blit(high_score_text, (300, 450))
         pygame.display.update()
         time.sleep(3)
         Running = False
@@ -210,6 +239,5 @@ while Running:
     tick_count += 1
     clock.tick(frame_rate)
 pygame.quit()
-
 
 #
