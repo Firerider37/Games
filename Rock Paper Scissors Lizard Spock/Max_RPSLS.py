@@ -64,7 +64,7 @@ while Running:
             Make sure to only choose options from that list.
             Your goal is to win and outsmart the other person.
             Respond with nothing but your choice.
-            A sample responce would be: "Rock" ''',
+            A sample responce would be: Rock ''',
         ).parsed
 
     #displays what you and the bot choose
